@@ -1,7 +1,8 @@
 package guru.springframework.reactiveexamples;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -44,17 +45,18 @@ public class ReactiveExamplesTest {
         log.info(command.sayMyName());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void monoFilter() throws Exception {
-        Mono<Person> personMono = Mono.just(sam);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            Mono<Person> personMono = Mono.just(sam);
 
-        //filter example
-        Person samAxe = personMono
-                .filter(person -> person.getFirstName().equalsIgnoreCase("foo"))
-                .block();
+            //filter example
+            Person samAxe = personMono
+                    .filter(person -> person.getFirstName().equalsIgnoreCase("foo"))
+                    .block();
 
-
-        log.info(samAxe.sayMyName()); //throws NPE
+            log.info(samAxe.sayMyName()); //throws NPE
+        });
     }
 
     @Test
